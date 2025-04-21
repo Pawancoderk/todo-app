@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple To-Do App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-6 rounded-xl shadow-md w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">My To-Do List</h1>
+
+    <form action="/add" method="POST" class="flex mb-4">
+      <input type="text" name="task" class="flex-grow p-2 rounded-l border border-gray-300 focus:outline-none" placeholder="Add a new task" required />
+      <button type="submit" class="bg-blue-500 text-white px-4 rounded-r hover:bg-blue-600">Add</button>
+    </form>
+
+    <ul>
+      {% for task in tasks %}
+        <li class="flex justify-between items-center bg-gray-100 p-2 mb-2 rounded">
+          <div class="flex items-center">
+            <input type="checkbox" onchange="location.href='/toggle/{{ loop.index0 }}'" {% if task.done %}checked{% endif %} class="mr-2">
+            <span class="{% if task.done %}line-through text-gray-500{% endif %}">{{ task.text }}</span>
+          </div>
+          <a href="/delete/{{ loop.index0 }}" class="text-red-500 hover:text-red-700">✕</a>
+        </li>
+      {% else %}
+        <p class="text-gray-500 text-sm text-center">No tasks yet!</p>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
